@@ -13,9 +13,9 @@ class FakeLogger2 implements ILogger
 
     public function logError(string $message)
     {
-         $this->loggerGotMessage = $message;
-         if ($this->willThrow != null) {
-             throw $this->willThrow;
-         }
+        $this->loggerGotMessage = $message;
+        if ($this->willThrow != null) {
+            throw $this->willThrow;
+        }
     }
 }

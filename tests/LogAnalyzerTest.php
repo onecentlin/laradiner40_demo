@@ -7,11 +7,11 @@ use Winnie\LaraDebut\IFileNameRules;
 use Winnie\LaraDebut\ILogger;
 use Winnie\LaraDebut\IWebService;
 use Winnie\LaraDebut\LogAnalyzer;
+use Winnie\LaraDebut\LogAnalyzer2;
 
 // 使用 Mockery 模擬框架
 use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
-use Winnie\LaraDebut\LogAnalyzer2;
 
 class LogAnalyzerTest extends TestCase
 {
@@ -95,7 +95,7 @@ class LogAnalyzerTest extends TestCase
         $stubLogger->shouldReceive('logError')
             ->with(
                 // 不論輸入任何參數, 模擬拋出例外的行為
-                m::on(function($message) {
+                m::on(function ($message) {
                     throw new \Exception("fake exception");
                 })
             );
@@ -108,7 +108,7 @@ class LogAnalyzerTest extends TestCase
         // 確認 web 服務的模擬物件有被正確呼叫, 而且傳入的字串參數包含了 fake exception 的內容
         $mockWebService->shouldHaveReceived('write')->once()
             ->with(
-                m::on(function($message) {
+                m::on(function ($message) {
                     return strpos($message, 'fake exception') !== false;
                 })
             );
