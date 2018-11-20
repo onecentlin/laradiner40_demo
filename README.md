@@ -1,4 +1,4 @@
-# LaraDiner #14 - 單元測試的藝術 第五、六章
+# LaraDiner #40 - 單元測試的藝術 第五、六章
 
 講者：[Winnie Lin](https://github.com/onecentlin)
 
