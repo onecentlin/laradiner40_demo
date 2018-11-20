@@ -42,4 +42,19 @@ class LogAnalyzerTest extends TestCase
         $analyzer->analyze("a.txt");
     }
 
+    /** @test */
+    public function analyze_TooShortFileName_CallLogger_UsingMockerySpy()
+    {
+        // 建立模擬物件
+        $logger = m::spy(ILogger::class);
+
+        $analyzer = new LogAnalyzer($logger);
+        $analyzer->minNameLength = 6;
+        $analyzer->analyze("a.txt");
+
+        // 使用 Mockery API 來設定期望結果
+        $logger->shouldHaveReceived('logError')->once()
+            ->with('Filename too short: a.txt');
+    }
+
 }
