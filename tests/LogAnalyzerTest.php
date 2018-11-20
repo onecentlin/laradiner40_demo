@@ -92,13 +92,9 @@ class LogAnalyzerTest extends TestCase
         $mockWebService = m::spy(IWebService::class);
 
         $stubLogger = m::mock(ILogger::class);
+        // 不論輸入任何參數, 模擬拋出例外的行為
         $stubLogger->shouldReceive('logError')
-            ->with(
-                // 不論輸入任何參數, 模擬拋出例外的行為
-                m::on(function ($message) {
-                    throw new \Exception("fake exception");
-                })
-            );
+            ->andThrow(new \Exception("fake exception"));
 
         $analyzer2 = new LogAnalyzer2($stubLogger, $mockWebService);
         $analyzer2->minNameLength = 8;
