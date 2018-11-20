@@ -3,6 +3,7 @@
 namespace Tests;
 
 use PHPUnit\Framework\TestCase;
+use Winnie\LaraDebut\IFileNameRules;
 use Winnie\LaraDebut\ILogger;
 use Winnie\LaraDebut\LogAnalyzer;
 
@@ -55,6 +56,17 @@ class LogAnalyzerTest extends TestCase
         // 使用 Mockery API 來設定期望結果
         $logger->shouldHaveReceived('logError')->once()
             ->with('Filename too short: a.txt');
+    }
+
+    /** @test */
+    public function returns_ByDefault_WorksForHardCodedArgument()
+    {
+        $fakeRules = m::mock(IFileNameRules::class);
+        // 強制方法被呼叫時要回傳假的值
+        $fakeRules->shouldReceive('isValidLogFileName')->once()
+            ->with('strict.txt')->andReturn(true);
+
+        $this->assertTrue($fakeRules->isValidLogFileName('strict.txt'));
     }
 
 }
