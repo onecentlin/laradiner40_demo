@@ -10,6 +10,7 @@ use Winnie\LaraDebut\LogAnalyzer;
 // 使用 Mockery 模擬框架
 use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use Winnie\LaraDebut\LogAnalyzer2;
 
 class LogAnalyzerTest extends TestCase
 {
@@ -69,4 +70,18 @@ class LogAnalyzerTest extends TestCase
         $this->assertTrue($fakeRules->isValidLogFileName('strict.txt'));
     }
 
+    /** @test */
+    public function analyze_LoggerThrows_CallsWebService()
+    {
+        $mockWebService = new FakeWebService();
+        $stubLogger = new FakeLogger2();
+        $stubLogger->willThrow = new \Exception("fake exception");
+
+        $analyzer2 = new LogAnalyzer2($stubLogger, $mockWebService);
+        $analyzer2->minNameLength = 8;
+        $tooShortFileName = "abc.ext";
+        $analyzer2->analyze($tooShortFileName);
+
+        $this->assertContains("fake exception", $mockWebService->messageToWebService);
+    }
 }
